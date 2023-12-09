@@ -13,8 +13,8 @@ path = "src/bin/standalone-bin.rs"
 
 [dependencies]
 askama = { version = "0.12.1", features = ["with-axum"] }
-askama_axum = "0.3.0"
-axum = { version = "0.6.20", features = ["multipart", "macros"] }
+askama_axum = "0.4.0"
+axum = { version = "0.7.2", features = ["multipart", "macros"] }
 image = "0.24.7"
 nanoid = "0.4.0"
 prqlx = "0.2.0"
@@ -22,7 +22,7 @@ qrcode-generator = "4.1.9"
 qrcodegen = "1.8.0"
 resvg = "0.36.0"
 serde = { version = "1.0.193", features = ["derive"] }
-shuttle-axum = { version = "0.35.0" }
+shuttle-metadata = "0.35.0"
 shuttle-runtime = { version = "0.35.0" }
 shuttle-shared-db = { version = "0.35.0", features = ["postgres"] }
 sqlx = { version = "0.7.3", features = ["runtime-tokio-native-tls", "postgres"] }

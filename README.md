@@ -12,6 +12,7 @@ mili aims to be a self-hostable link shortener that's easy to setup and use with
 ### Regular Dockerfile deployment
 - You will need to make sure to set up the Dockerfile and make sure to pass in the following environment variables:
 	- `DATABASE_URL` (the Postgres database URL)
+	- `DOMAIN_URL` (the Domain URL)
 - There is currently nothing to allow working with TLS currently, so you are almost certainly going to need to deploy to somewhere like Railway that has the service behind their own reverse proxy. 
 
 ## Feature Roadmap 
@@ -21,9 +22,10 @@ mili aims to be a self-hostable link shortener that's easy to setup and use with
 - [x] QR Code generation
 - [x] Superimpose logos on QR codes
 
-- [ ] Decide on auth system for dashboard
-- [ ] Implement it
 - [ ] Analytics (privacy-respecting)
 
 ### Long Term
 - [ ] Vector image QR code option
+- [ ] Make QR code more customisable
+- [ ] Optional auth 
+- [ ] Proper resizing for QR code logos

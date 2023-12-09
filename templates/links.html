@@ -2,6 +2,7 @@
 
 {% block content %}
 	{% if links.len() > 0 %}
+	<p>Click a link ID to copy it to the clipboard.</p>
 	<table>
 		<thead>
 			<tr>
@@ -15,9 +16,9 @@
 			{% for link in links %}
 			<tr id="link-{{link.shortlink_id}}">
 					<td><a href="{{link.uri}}">{{link.uri}}</a></td>
-				<td>{{link.shortlink_id}}</td>
-				<td><a href="/qr/{{link.shortlink_id}}">Get QR code</td>
-				<td><button hx-delete="/{{link.shortlink_id}}" hx-target="#link-{{link.shortlink_id}}">Delete</button></td>
+					<td class="shortlink-id" onClick="((e) => addToClipboard(e))"><a>{{link.shortlink_id}}</a></td>
+					<td><a href="/qr/{{link.shortlink_id}}">Get QR code</a></td>
+				<td><a hx-delete="/{{link.shortlink_id}}" hx-target="#link-{{link.shortlink_id}}">Delete</a></td>
 			</tr>
 			{% endfor %}
 		</tbody>
@@ -26,4 +27,21 @@
 	<p>Looks like there's nothing here! You probably need to make a link first.</p>
 	{% endif %}
 </div>
+
+<script>
+	function addToClipboard(evt) {
+
+					const it = (window.location.protocol === 'https:' ? 'https://' + window.location.host : 'http://' + window.location.host ) + "/" + evt.target.innerText 
+
+					navigator.clipboard.writeText(it).then(() => {
+								alert("Copied shortlink!")
+							})
+			}
+
+	const meme = document.getElementsByClassName("shortlink-id");
+
+		for (let i = 0; i < meme.length; i++) {
+					meme[i].addEventListener("click", addToClipboard, false)
+				} 
+</script>
 {% endblock content %}

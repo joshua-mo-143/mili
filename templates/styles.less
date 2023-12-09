@@ -110,6 +110,10 @@ a {
 	}
 }
 
+h1 {
+	font-size: 3rem;
+}
+
 #content {
 	display: flex;
 	flex-direction: column;
@@ -118,20 +122,22 @@ a {
 	gap: 2rem;
 	min-height: 100vh - 7rem;
 
-	.shorten-form {
+	.shorten-form, .logo-form {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		gap: .5rem;
-		width: 20%;
-	}
-	
-	.logo-form {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		gap: .5rem;
-		width: 20%;
+		width: 80%;
+		min-width: 200px;
+
+		button, input {
+			padding: 1rem;
+			font-size: 1.25rem;
+		}
+
+		@media screen and (min-width: 550px) {
+			max-width: 40%;
+		}
 	}
 }
 
@@ -155,5 +161,18 @@ a {
 
 table, td, th {
 	padding: 5px;
-	border: 2px transparent black;
+	border: 2px double black;
+}
+
+table {
+	width: 50%;
+	text-align: center;
+}
+
+tbody > tr:nth-of-type(2n+1) {
+	background: rgb(230, 230, 230);
+}
+
+a {
+	cursor: pointer;
 }

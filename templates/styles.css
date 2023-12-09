@@ -180,6 +180,9 @@ a {
 .navbar .navbar-list .navbar-item a {
   text-decoration: none;
 }
+h1 {
+  font-size: 3rem;
+}
 #content {
   display: flex;
   flex-direction: column;
@@ -188,19 +191,27 @@ a {
   gap: 2rem;
   min-height: 93vh;
 }
-#content .shorten-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.5rem;
-  width: 20%;
-}
+#content .shorten-form,
 #content .logo-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 0.5rem;
-  width: 20%;
+  width: 80%;
+  min-width: 200px;
+}
+#content .shorten-form button,
+#content .logo-form button,
+#content .shorten-form input,
+#content .logo-form input {
+  padding: 1rem;
+  font-size: 1.25rem;
+}
+@media screen and (min-width: 550px) {
+  #content .shorten-form,
+  #content .logo-form {
+    max-width: 40%;
+  }
 }
 #meme {
   text-align: center;
@@ -222,5 +233,15 @@ table,
 td,
 th {
   padding: 5px;
-  border: 2px transparent black;
+  border: 2px double black;
+}
+table {
+  width: 50%;
+  text-align: center;
+}
+tbody > tr:nth-of-type(2n+1) {
+  background: #e6e6e6;
+}
+a {
+  cursor: pointer;
 }

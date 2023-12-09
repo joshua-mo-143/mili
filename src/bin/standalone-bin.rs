@@ -1,5 +1,6 @@
 use mili::routes::router::init_router;
 use sqlx::postgres::PgPoolOptions;
+use tokio::net::TcpListener;
 use std::net::SocketAddr;
 
 #[tokio::main]
@@ -14,9 +15,12 @@ async fn main() {
 
     sqlx::migrate!().run(&db).await.unwrap();
 
-    let router = init_router(db);
+    let domain = std::env::var("DOMAIN_URL").unwrap();
+
+    let router = init_router(db, domain);
 
     let addr = SocketAddr::from(([0,0,0,0],8000));
 
-    axum::Server::bind(&addr).serve(router.into_make_service()).await.unwrap();
+    let tcplistener = TcpListener::bind(addr).await.unwrap();
+    axum::serve(tcplistener, router).await.unwrap();
 }

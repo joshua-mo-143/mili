@@ -6,8 +6,8 @@ use sqlx::PgPool;
 
 use crate::routes::{frontend, links};
 
-pub fn init_router(db: PgPool) -> Router {
-    let state = links::AppState { db};
+pub fn init_router(db: PgPool, domain: String) -> Router {
+    let state = links::AppState { db, domain };
 
     Router::new()
         .route("/", get(frontend::homepage))

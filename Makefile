@@ -2,7 +2,7 @@ up:
 	make styles & cargo watch -x "shuttle run"
 
 psql-shuttle:
-	docker exec -it shuttle_bitly_shared_postgres psql -U postgres -h localhost -p 5432
+	docker exec -it shuttle_mili_shared_postgres psql -U postgres -h localhost -p 5432
 
 styles:
 	less-watch-compiler

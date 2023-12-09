@@ -1,5 +1,5 @@
 use axum::{
-    extract::{Multipart, Path, State, Form},
+    extract::{Multipart, Path, State},
     http::StatusCode,
     response::{IntoResponse, Redirect, Response},
 };
@@ -10,12 +10,14 @@ use nanoid::nanoid;
 use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
 use std::io::Cursor;
+use crate::error::Form;
 
 use crate::qrcode::make_qrcode;
 
 #[derive(Clone)]
 pub struct AppState {
     pub db: PgPool,
+    pub domain: String
 }
 
 #[derive(Deserialize)]
@@ -27,6 +29,11 @@ pub struct LinkSubmission {
 #[derive(Serialize, sqlx::FromRow)]
 pub struct Link {
     uri: String,
+}
+
+#[derive(Serialize, sqlx::FromRow)]
+pub struct ShortlinkId {
+    shortlink_id: String,
 }
 
 #[derive(Serialize, sqlx::FromRow)]
@@ -43,7 +50,7 @@ struct ShortenSuccessTemplate {
 pub async fn shorten(
     State(state): State<AppState>,
     Form(query): Form<LinkSubmission>,
-) -> impl AskamaResponse {
+) -> Result<impl AskamaResponse, impl IntoResponse> {
     let shortlink_id = match query.shortlink {
         Some(res) =>  {
             if res != String::new() { res } else { nanoid!(6) }
@@ -51,7 +58,7 @@ pub async fn shorten(
         None => nanoid!(6),
     };
 
-    sqlx::query(
+    if let Err(e) = sqlx::query(
         "
         INSERT INTO LINKS
         (uri, shortlink_id)
@@ -62,12 +69,14 @@ pub async fn shorten(
     .bind::<String>(query.uri.into())
     .bind(shortlink_id.to_owned())
     .execute(&state.db)
-    .await
-    .unwrap();
-
-    ShortenSuccessTemplate {
-        shortlink_id
+    .await {
+        return Err((StatusCode::INTERNAL_SERVER_ERROR, e.to_string())) 
     }
+
+
+    Ok(ShortenSuccessTemplate {
+        shortlink_id
+    })
 }
 
 pub async fn delete_link(
@@ -108,38 +117,41 @@ pub async fn get_qrcode(
     State(state): State<AppState>,
     Path(shortlink_id): Path<String>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
-    let result = sqlx::query_as::<_, Link>(
+    let result = match sqlx::query_as::<_, ShortlinkId>(
         "
-        SELECT uri FROM LINKS
+        SELECT SHORTLINK_ID FROM LINKS
         WHERE SHORTLINK_ID = $1
         LIMIT 1
     ",
     )
     .bind(shortlink_id)
     .fetch_one(&state.db)
-    .await
-    .unwrap();
+    .await {
+        Ok(res) => res,
+        Err(e) => return Err((StatusCode::BAD_REQUEST, e.to_string()))
+    };
     
-    let query = match sqlx::query_as::<_, ByteData>("SELECT bytedata FROM images
+    let url = format!("{}/{}", state.domain, &result.shortlink_id);
+    let query = sqlx::query_as::<_, ByteData>("SELECT bytedata FROM images
     WHERE is_default is true LIMIT 1")
         .fetch_one(&state.db)
-        .await {
-            Ok(res) => res,
-            Err(e) => return Err((StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))
-        };
+        .await;
 
-    let res = match query.bytedata {
+    let res = match query {
+        Ok(res) => { match res.bytedata {
         Some(logo) => {
-            make_qrcode(&result.uri, Some(logo))
+            make_qrcode(&url, Some(logo))
         }
-        None => make_qrcode(&result.uri, None),
+        None => make_qrcode(&url, None),
+        }},
+        Err(_) => make_qrcode(&url, None)
     };
 
     Ok(Response::builder()
         .header("Content-Type", "image/png")
         .header("Content-Disposition", r#"attachment; filename="image.png""#)
         .status(200)
-        .body(axum::body::Full::from(res))
+        .body(axum::body::Body::from(res))
         .unwrap())
 }
 
