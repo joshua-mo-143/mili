@@ -4,7 +4,7 @@ use axum::{
 };
 use sqlx::PgPool;
 
-use crate::routes::{frontend, links};
+use crate::routes::{frontend, links, analytics};
 
 pub fn init_router(db: PgPool, domain: String) -> Router {
     let state = links::AppState { db, domain };
@@ -16,6 +16,7 @@ pub fn init_router(db: PgPool, domain: String) -> Router {
         .route("/options", get(frontend::options))
         .route("/shorten", post(links::shorten))
         .route("/shortlink", get(frontend::shortlink))
+        .route("/analytics", get(analytics::get_analytics))
         .route("/logo", post(links::upload_logo))
         .route("/:id", get(links::redirect).delete(links::delete_link))
         .route("/qr/:id", get(links::get_qrcode))

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+	{% if data.len() > 0 %}
+	<h1> Total Hits </h1>
+	<table>
+		<thead>
+			<tr>
+				<th>Date</th>
+				<th>Count</th>
+			<tr>
+		</thead>
+		<tbody>
+			{% for data_point in data %}
+			<tr id="link-{{data_point.date}}">
+					<td>{{data_point.date}}</td>
+					<td>{{data_point.count}}</td>
+
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% else %}
+	<p>Looks like there's nothing here! You probably need to get someone to visit a shortlink first.</p>
+	{% endif %}
+{% endblock content %}

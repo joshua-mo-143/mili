@@ -15,6 +15,7 @@ path = "src/bin/standalone-bin.rs"
 askama = { version = "0.12.1", features = ["with-axum"] }
 askama_axum = "0.4.0"
 axum = { version = "0.7.2", features = ["multipart", "macros"] }
+chrono = { version = "0.4.31", features = ["clock"] }
 image = "0.24.7"
 nanoid = "0.4.0"
 prqlx = "0.2.0"
@@ -25,7 +26,7 @@ serde = { version = "1.0.193", features = ["derive"] }
 shuttle-metadata = "0.35.0"
 shuttle-runtime = { version = "0.35.0" }
 shuttle-shared-db = { version = "0.35.0", features = ["postgres"] }
-sqlx = { version = "0.7.3", features = ["runtime-tokio-native-tls", "postgres"] }
+sqlx = { version = "0.7.3", features = ["runtime-tokio-native-tls", "postgres", "chrono"] }
 tiny-skia = "0.11.3"
 tokio = { version = "1.28.2", features = ["macros", "rt-multi-thread"] }
 tracing = "0.1.40"

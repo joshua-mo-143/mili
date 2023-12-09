@@ -94,24 +94,51 @@ pub async fn delete_link(
     StatusCode::OK
 }
 
+#[derive(sqlx::Type)]
+#[sqlx(type_name = "source")]
+enum Source {
+    qrcode,
+    link
+}
+
 pub async fn redirect(
     State(state): State<AppState>,
     Path(shortlink_id): Path<String>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
-    match sqlx::query_as::<_, Link>(
+
+    let res = match sqlx::query_as::<_, Link>(
         "
         SELECT uri FROM LINKS
         WHERE SHORTLINK_ID = $1
         LIMIT 1
     ",
     )
-    .bind(shortlink_id)
+    .bind(shortlink_id.clone())
     .fetch_one(&state.db)
     .await {
-    Ok(res) => Ok(Redirect::to(&res.uri)),
-    Err(e) => Err((StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))
+    Ok(res) => res,
+    Err(e) => return Err((StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))
+    };
+
+    sqlx::query("INSERT INTO stats (
+    id, link_id, visit_source
+    )
+    VALUES 
+    (
+    $1,
+    (SELECT id FROM links WHERE shortlink_id = $2),
+    $3
+    )
+    ")
+    .bind(nanoid::nanoid!(20))
+    .bind(shortlink_id)
+    .bind(Source::link)
+    .execute(&state.db)
+    .await.unwrap();
+
+        Ok(Redirect::to(&res.uri))
     }
-}
+ 
 
 pub async fn get_qrcode(
     State(state): State<AppState>,
