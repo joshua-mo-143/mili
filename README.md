@@ -21,11 +21,11 @@ mili aims to be a self-hostable link shortener that's easy to setup and use with
 - [x] Custom links
 - [x] QR Code generation
 - [x] Superimpose logos on QR codes
-
-- [ ] Analytics (privacy-respecting)
+- [x] Basic overall hit counter 
 
 ### Long Term
 - [ ] Vector image QR code option
 - [ ] Make QR code more customisable
 - [ ] Optional auth 
 - [ ] Proper resizing for QR code logos
+- [ ] More indepth analytics per link (privacy respecting)
