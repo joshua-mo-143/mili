@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+	{% if links.len() > 0 %}
+	<table>
+		<thead>
+			<tr>
+				<th>Link URL</th>
+				<th>Link ID</th>
+				<th>Get QR code</th>
+				<th>Delete</th>
+			<tr>
+		</thead>
+		<tbody>
+			{% for link in links %}
+			<tr id="link-{{link.shortlink_id}}">
+					<td><a href="{{link.uri}}">{{link.uri}}</a></td>
+				<td>{{link.shortlink_id}}</td>
+				<td><a href="/qr/{{link.shortlink_id}}">Get QR code</td>
+				<td><button hx-delete="/{{link.shortlink_id}}" hx-target="#link-{{link.shortlink_id}}">Delete</button></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% else %}
+	<p>Looks like there's nothing here! You probably need to make a link first.</p>
+	{% endif %}
+</div>
+{% endblock content %}

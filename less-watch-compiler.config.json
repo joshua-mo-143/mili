@@ -1,0 +1,5 @@
+{
+    "watchFolder": "./templates",
+    "outputFolder": "./templates",
+    "mainFile": "styles.less"
+}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h1>Shorten your links.</h1>
+	<form hx-post="/shorten" hx-target="#meme" class="shorten-form" hx-reset-on-success>
+		<input type="text" name="uri" required placeholder="Link URL" class="shadow-md px-5 py-2"></input>
+		<button type="submit" class="bg-blue-200 px-5 py-2 border-2 rounded-md">Submit</button>	
+		<button hx-get="/shortlink" hx-target="this" hx-swap="outerHTML" class="bg-blue-200 px-5 py-2 border-2 rounded-md"> Add a custom shortlink</button>
+	</form>
+	<div id="meme"></div>
+	{% endblock content %}
