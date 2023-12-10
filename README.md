@@ -26,6 +26,7 @@ Interested? You can access a demo at [https://links.joshmo.dev.](https://links.j
 - [x] Basic overall hit counter 
 
 ### Long Term
+- [ ] Make non-Dockerfile deployment work with things that aren't Railway/Shuttle
 - [ ] Vector image QR code option
 - [ ] Make QR code more customisable
 - [ ] Optional auth 
