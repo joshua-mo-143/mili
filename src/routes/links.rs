@@ -44,7 +44,8 @@ pub struct ByteData {
 #[derive(Template)]
 #[template(path = "shorten_success.html")]
 struct ShortenSuccessTemplate {
-    shortlink_id: String
+    shortlink_id: String,
+    domain: String
 } 
 
 pub async fn shorten(
@@ -75,7 +76,8 @@ pub async fn shorten(
 
 
     Ok(ShortenSuccessTemplate {
-        shortlink_id
+        shortlink_id,
+        domain: state.domain
     })
 }
 

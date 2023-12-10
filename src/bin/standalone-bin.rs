@@ -15,11 +15,13 @@ async fn main() {
 
     sqlx::migrate!().run(&db).await.unwrap();
 
-    let domain = std::env::var("DOMAIN_URL").unwrap();
+    let domain = std::env::var("RAILWAY_PUBLIC_DOMAIN").unwrap();
+    let domain = format!("https://{domain}");
+    let port = std::env::var("PORT").unwrap().parse::<u16>().unwrap();
 
     let router = init_router(db, domain);
 
-    let addr = SocketAddr::from(([0,0,0,0],8000));
+    let addr = SocketAddr::from(([0,0,0,0], port));
 
     let tcplistener = TcpListener::bind(addr).await.unwrap();
     axum::serve(tcplistener, router).await.unwrap();
