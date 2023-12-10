@@ -120,23 +120,38 @@ h1 {
 	justify-content: center;
 	align-items: center;
 	gap: 2rem;
-	min-height: 100vh - 7rem;
+	width: 100%;
+	min-height: 90vh - 7rem;
 
 	.shorten-form, .logo-form {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		gap: .5rem;
-		width: 80%;
-		min-width: 200px;
+		width: 95%;
+		min-width: 90%;
 
 		button, input {
 			padding: 1rem;
-			font-size: 1.25rem;
+			font-size: 2rem;
 		}
 
-		@media screen and (min-width: 550px) {
-			max-width: 40%;
+		@media screen and (min-width: 500px) {
+			max-width: 60%;
+			min-width: 300px;
+			font-size: 1.25rem;
+		}
+	}
+
+	.copied-buttons {
+		font-size: 2rem;
+	}
+
+	p {
+		font-size: 2rem;
+
+		@media screen and (min-width: 500px) {
+			font-size: 1.25rem;
 		}
 	}
 }
@@ -153,9 +168,14 @@ h1 {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		gap: 0.5rem;
 	}	
 	.copied-buttons {
 		height: 100%;
+
+		#copy-button {
+			font-size: 2rem;
+		}
 	}
 }
 
@@ -177,3 +197,4 @@ tbody > tr:nth-of-type(2n+1) {
 a {
 	cursor: pointer;
 }
+

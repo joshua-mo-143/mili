@@ -2,6 +2,8 @@
 
 mili aims to be a self-hostable link shortener that's easy to setup and use with QR code generation and analytics.
 
+Interested? You can access a demo at [https://links.joshmo.dev.](https://links.joshmo.dev)
+
 ## How to Deploy
 
 ### Shuttle
@@ -12,7 +14,7 @@ mili aims to be a self-hostable link shortener that's easy to setup and use with
 ### Regular Dockerfile deployment
 - You will need to make sure to set up the Dockerfile and make sure to pass in the following environment variables:
 	- `DATABASE_URL` (the Postgres database URL)
-	- `DOMAIN_URL` (the Domain URL)
+	- `DOMAIN_URL` (the Domain URL, if you're not hosting on Railway)
 - There is currently nothing to allow working with TLS currently, so you are almost certainly going to need to deploy to somewhere like Railway that has the service behind their own reverse proxy. 
 
 ## Feature Roadmap 

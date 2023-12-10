@@ -1,5 +1,5 @@
 up:
-	make styles & cargo watch -x "shuttle run"
+	make styles & cargo watch -x "shuttle run --external"
 
 psql-shuttle:
 	docker exec -it shuttle_mili_shared_postgres psql -U postgres -h localhost -p 5432
