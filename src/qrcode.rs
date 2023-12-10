@@ -11,8 +11,8 @@ pub fn make_qrcode(link: &str, logo: Option<Vec<u8>>) -> Vec<u8> {
         let logo_bytes = get_dynamic_image(logo.to_owned());
         let (width, height) = get_dynamic_image_size(logo);
 
-        let width = 1024 / 2 - (width / 2);
-        let height = 1024 / 2 - (height / 2);
+        let width = 381;
+        let height = 381;
 
         imageops::overlay(&mut qr, &logo_bytes, width.into(), height.into());
     }

@@ -2,6 +2,7 @@
 
 {% block content %}
 	<h1>Upload a new logo to use</h1>
+	<p>Note that square logos will look much better.</>
 	<form hx-encoding="multipart/form-data" hx-post="/logo" class="logo-form">
 		<input type="file" name="file" required class="bg-blue-200 px-5 py-2 border-2 rounded-md"></input>
 		<button type="submit" class="bg-blue-200 px-5 py-2 border-2 rounded-md">Submit</button>

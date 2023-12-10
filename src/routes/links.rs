@@ -197,7 +197,7 @@ pub async fn upload_logo(
             .unwrap()
             .decode()
             .unwrap()
-            .resize(300, 300, imageops::FilterType::Lanczos3);
+            .resize(295, 295, imageops::FilterType::Lanczos3);
 
         let mut bytes: Vec<u8> = Vec::new();
         img2.write_to(&mut Cursor::new(&mut bytes), ImageFormat::Png)
